@@ -1,0 +1,90 @@
+var onRun = function( context ) {
+	// Get Layer Type function
+	function getLayerType( selectedLayer ) {
+		return selectedLayer.class();
+	}
+
+	// Variables
+	var selectedLayers = context.selection;
+	var selectedCount = selectedLayers.count();
+	var pasteBoard = NSPasteboard.generalPasteboard();
+	var arr = [];
+
+	// If not layers/arboards selected
+	if ( selectedCount == 0 ) {
+		// Do nothing
+		log('No layers are selected.');
+	} else {
+		// If layers/arboards selected
+
+		// Clear clipboard content
+		pasteBoard.clearContents();
+
+		// Go through each layer/arboard selected
+		for ( var i = 0; i < selectedCount; i++ ) {
+			var layer = selectedLayers[i];
+
+			// Get coordinates from each layer
+			varX = [[layer absoluteRect] rulerX];
+			varY = [[layer absoluteRect] rulerY];
+			var layerType = getLayerType(layer);
+
+			// Verify layers type is text
+			if ( layerType == 'MSTextLayer' ) {
+				var copiedText = layer.stringValue() + "\n";
+				arr.push({'x': varX, 'y': varY, 'text': copiedText});
+			} else {
+				// Get layers inside group
+				var children = layer.children();
+
+				for ( var z = 0; z < children.length; z++ ){
+					// Verify layers type is text
+					if ( getLayerType(children[z] ) == 'MSTextLayer' ){
+
+						child = children[z];
+
+						// Get coordinates from each layer
+						childVarX = [[child absoluteRect] rulerX]
+						childVarY = [[child absoluteRect] rulerY]
+						var copiedTextChild = child.stringValue() + "\n";
+
+						arr.push({'x': childVarX, 'y': childVarY, 'text': copiedTextChild});
+					}
+				}
+			}
+
+		}
+	}
+
+	// Order layers by coordinates
+	arr.sort(function(a, b) {
+		//sort by x, secondary by y
+		return a.y == b.y ? a.x - b.x : a.y - b.y;
+	});
+
+	arranged = [];
+
+	for ( var i = 0; i < arr.length; i++ ) {
+
+	  //check if was already added
+	  if ( typeof( arr[i].wasAdded ) == "undefined") {
+		arranged.push(arr[i]);
+		arr[i].wasAdded = "true";
+
+		for ( j = i + 1; j < arr.length; j++ ) {
+			if ( arr[i].y > arr[j].y && typeof( arr[j].wasAdded ) == "undefined" ) {
+				arranged.push(arr[j]);
+				arr[j].wasAdded = "true";
+			}
+		}
+	  }
+	}
+
+	// Get all text
+	for ( var i = 0; i < arranged.length; i++ ) {
+		var finalText = arranged[i].text;
+
+		// Copy text to clipboard
+		pasteBoard.writeObjects([finalText]);
+	}
+};

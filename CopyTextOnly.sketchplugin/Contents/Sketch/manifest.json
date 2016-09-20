@@ -1,0 +1,26 @@
+{
+  "name" : "Copy Text Only",
+  "author" : "Explorador",
+  "identifier" : "me.explorador.copytextonly",
+  "version" : "1.0",
+  "description" : "Sketch plugin to copy only the text from selected artboard(s) or layer(s)",
+  "authorEmail" : "explorador@users.noreply.github.com",
+  "homepage": "https://github.com/explorador/sketch-copy-text-only",
+  "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "name" : "Copy Text Only",
+      "handlers" : {
+        "run" : "onRun"
+      },
+      "identifier" : "copytextonly"
+    }
+  ],
+  "menu" : {
+    "isRoot": true,
+    "items" : [
+      "copytextonly"
+    ],
+    "title" : "Copy Text Only"
+  }
+}

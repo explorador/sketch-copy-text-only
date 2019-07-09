@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BohemianCoding/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "my-command",
+      "identifier": "sketch-copy-text-only.my-command-identifier",
+      "script": "./my-command.js"
+    }
+  ],
+  "menu": {
+    "title": "Sketch Copy Text Only",
+    "items": [
+      "sketch-copy-text-only.my-command-identifier"
+    ]
+  }
+}

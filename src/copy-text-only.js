@@ -32,21 +32,32 @@ const loopThroughAllSymbolLayers = (textElements, symbolObjectPosition) => {
 // Loop through all selected layers.
 const loopThroughAllSelectedLayers = (layers) => {
 	layers.forEach( layer => {
-		// If selected layer is a "text" layer
+		/**
+		 * If selected layer is a "text" layer.
+		 */
 		if ( layer.type === 'Text' ) {
 			// Add the results to an array of objects with this new values.
 			return SetSelectedTextProperties(layer);
-		} else if ( ( layer.type === 'Group' || layer.type === 'Artboard' ) && 'layers' in layer ) {
-			// If it's a "group" OR "artboard" layer: Run the loop again.
+		}
+
+		/**
+		 * If it's a "group" OR "artboard" layer.
+		 */
+		if ( ( layer.type === 'Group' || layer.type === 'Artboard' ) && 'layers' in layer ) {
+			// Run the loop again.
 			return loopThroughAllSelectedLayers(layer.layers)
-		} else if ( layer.type === 'SymbolInstance' && layer.overrides.length > 0 ) {
-			// If it's a "symbol"
+		}
+
+		/**
+		 * If it's a "symbol".
+		 */
+		if ( layer.type === 'SymbolInstance' && layer.overrides.length > 0 ) {
 			// Make an array of all text selected from a symbol.
 			let selectedTextFromSymbol = []
 			// Make an array of all text elements inside a symbol.
 			let allTextFromSymbol = []
 
-			// Loop through all overrides.
+			// Loop through all symbol overrides.
 			layer.overrides.forEach(element => {
 				// Only select "text" overrides.
 				if (element.property === 'stringValue' ) {

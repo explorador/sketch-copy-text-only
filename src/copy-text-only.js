@@ -16,10 +16,16 @@ const SetSelectedTextProperties = (layer = null, textValue, xValue, yValue) => {
 }
 
 // Loop through all symbol layers with text.
-const loopThroughAllSymbolLayers = (textElements) => {
+const loopThroughAllSymbolLayers = (textElements, symbolObjectPosition) => {
 	textElements.forEach((symbol, i, array) => {
-		// Set selectedTet Properties with new X and Y values. (Defined by the "index order" in the symbol)
-		return SetSelectedTextProperties(null, symbol.value, `${array.length - i}`, `0`);
+		// Set selectedTet Properties with new X and Y values.
+		// (Defined by the "index order" in the symbol and the current "symbol position").
+		return SetSelectedTextProperties(
+			null,
+			symbol.value,
+			symbolObjectPosition.rulerX() + array.length - i,
+			symbolObjectPosition.rulerY()
+		)
 	});
 }
 
@@ -38,7 +44,7 @@ const loopThroughAllSelectedLayers = (layers) => {
 			// Make an array of all text selected from a symbol.
 			let selectedTextFromSymbol = []
 			// Make an array of all text elements inside a symbol.
-			let AllTextFromSymbol = []
+			let allTextFromSymbol = []
 
 			// Loop through all overrides.
 			layer.overrides.forEach(element => {
@@ -49,17 +55,17 @@ const loopThroughAllSelectedLayers = (layers) => {
 						selectedTextFromSymbol.push(element)
 					}
 					// Build an array with all text from selected symbol.
-					AllTextFromSymbol.push(element)
+					allTextFromSymbol.push(element)
 				}
 			});
 
 			// If not text is selected inside a symbol.
 			if ( selectedTextFromSymbol.length > 0 ) {
 				// Loop through all text selected from a symbol.
-				return loopThroughAllSymbolLayers(selectedTextFromSymbol)
+				return loopThroughAllSymbolLayers(selectedTextFromSymbol,layer.sketchObject.absoluteRect())
 			} else {
 				// Loop through all text inside a symbol.
-				return loopThroughAllSymbolLayers(AllTextFromSymbol)
+				return loopThroughAllSymbolLayers(allTextFromSymbol,layer.sketchObject.absoluteRect())
 			}
 		}
 	})

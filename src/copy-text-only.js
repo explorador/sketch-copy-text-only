@@ -55,7 +55,7 @@ export default function() {
 			// Let user know that text was copied to clipboard.
 			UI.message(`Text copied to clipboard! 😉`)
 		} else {
-			// Let user know there are not layers selected.
+			// Let user know there are not layers/artboards with text selected.
 			UI.message(`Please select layers/artboards with text 😧`)
 		}
 	} else {

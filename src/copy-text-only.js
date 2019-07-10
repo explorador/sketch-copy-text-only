@@ -60,6 +60,6 @@ export default function() {
 		}
 	} else {
 		// Let user know there are not layers selected.
-		UI.message(`Nothing was selected`)
+		UI.message(`Nothing was selected 😧`)
 	}
 }

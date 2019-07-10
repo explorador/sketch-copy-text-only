@@ -7,12 +7,20 @@ const pasteBoard = NSPasteboard.generalPasteboard()
 let GetAllSelectedText = []
 
 // Set selectedText Properties.
-const SetSelectedTextProperties = (layer) => {
+const SetSelectedTextProperties = (layer = null, textValue, xValue, yValue) => {
 	return GetAllSelectedText.push({
-		'x': layer.sketchObject.absoluteRect().rulerX(),
-		'y': layer.sketchObject.absoluteRect().rulerY(),
-		'text': layer.text
+		'x': xValue ? xValue : layer.sketchObject.absoluteRect().rulerX(),
+		'y': yValue ? yValue : layer.sketchObject.absoluteRect().rulerY(),
+		'text': textValue ? textValue : layer.text
 	})
+}
+
+// Loop through all symbol layers with text.
+const loopThroughAllSymbolLayers = (textElements) => {
+	textElements.forEach((symbol, i, array) => {
+		// Set selectedTet Properties with new X and Y values. (Defined by the "index order" in the symbol)
+		return SetSelectedTextProperties(null, symbol.value, `${array.length - i}`, `0`);
+	});
 }
 
 // Loop through all selected layers.
@@ -25,6 +33,34 @@ const loopThroughAllSelectedLayers = (layers) => {
 		} else if ( ( layer.type === 'Group' || layer.type === 'Artboard' ) && 'layers' in layer ) {
 			// If it's a "group" OR "artboard" layer: Run the loop again.
 			return loopThroughAllSelectedLayers(layer.layers)
+		} else if ( layer.type === 'SymbolInstance' && layer.overrides.length > 0 ) {
+			// If it's a "symbol"
+			// Make an array of all text selected from a symbol.
+			let selectedTextFromSymbol = []
+			// Make an array of all text elements inside a symbol.
+			let AllTextFromSymbol = []
+
+			// Loop through all overrides.
+			layer.overrides.forEach(element => {
+				// Only select "text" overrides.
+				if (element.property === 'stringValue' ) {
+					// Build an array with all text selected from a symbol.
+					if ( element.selected ) {
+						selectedTextFromSymbol.push(element)
+					}
+					// Build an array with all text from selected symbol.
+					AllTextFromSymbol.push(element)
+				}
+			});
+
+			// If not text is selected inside a symbol.
+			if ( selectedTextFromSymbol.length > 0 ) {
+				// Loop through all text selected from a symbol.
+				return loopThroughAllSymbolLayers(selectedTextFromSymbol)
+			} else {
+				// Loop through all text inside a symbol.
+				return loopThroughAllSymbolLayers(AllTextFromSymbol)
+			}
 		}
 	})
 }

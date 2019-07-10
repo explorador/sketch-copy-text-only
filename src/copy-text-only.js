@@ -29,9 +29,6 @@ const loopThroughAllSelectedLayers = (layers) => {
 	})
 }
 
-// // Let user know there is nothing selected.
-const noTextSelectedMsg = () => ( UI.message(`Nothing selected`) );
-
 /**
  * Default function.
  */
@@ -59,10 +56,10 @@ export default function() {
 			UI.message(`Text copied to clipboard! 😉`)
 		} else {
 			// Let user know there are not layers selected.
-			noTextSelectedMsg()
+			UI.message(`Please select layers/artboards with text 😧`)
 		}
 	} else {
 		// Let user know there are not layers selected.
-		noTextSelectedMsg()
+		UI.message(`Nothing was selected`)
 	}
 }

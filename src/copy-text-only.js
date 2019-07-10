@@ -22,8 +22,8 @@ const loopThroughAllSelectedLayers = (layers) => {
 		if ( layer.type === 'Text' ) {
 			// Add the results to an array of objects with this new values.
 			return SetSelectedTextProperties(layer);
-		} else if ( layer.type === 'Group' && 'layers' in layer ) {
-			// If it's a "group" layer: Run the loop again.
+		} else if ( ( layer.type === 'Group' || layer.type === 'Artboard' ) && 'layers' in layer ) {
+			// If it's a "group" OR "artboard" layer: Run the loop again.
 			return loopThroughAllSelectedLayers(layer.layers)
 		}
 	})

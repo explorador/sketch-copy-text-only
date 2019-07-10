@@ -29,6 +29,12 @@ const loopThroughAllSelectedLayers = (layers) => {
 	})
 }
 
+// // Let user know there is nothing selected.
+const noTextSelectedMsg = () => ( UI.message(`Nothing selected`) );
+
+/**
+ * Default function.
+ */
 export default function() {
 	// If there are layers selected.
 	if ( selectedLayers.length > 0 ) {
@@ -38,20 +44,25 @@ export default function() {
 		// Loop through all layers.
 		loopThroughAllSelectedLayers(selectedLayers)
 
-		// Sorting array by coordinates.
-		GetAllSelectedText.sort((a, b) => ( a.y == b.y ? a.x - b.x : a.y - b.y ))
+		// If text layers were found.
+		if ( GetAllSelectedText.length > 0 ) {
+			// Sort array by coordinates.
+			GetAllSelectedText.sort((a, b) => ( a.y == b.y ? a.x - b.x : a.y - b.y ))
 
-		// Go through all selected text layers.
-		GetAllSelectedText.forEach((item, i, array) => {
-			// Copy text to clipboard (Adding a new line at the end EXCEPT for the last item).
-			pasteBoard.writeObjects([`${item.text}${i !== array.length - 1 ? '\n' : ''}`])
-		})
+			// Go through all selected text layers.
+			GetAllSelectedText.forEach((item, i, array) => {
+				// Copy text to clipboard (Adding a new line at the end EXCEPT for the last item).
+				pasteBoard.writeObjects([`${item.text}${i !== array.length - 1 ? '\n' : ''}`])
+			})
 
-		// Let user know that text was copied to clipboard.
-		UI.message(`Text copied to clipboard! 😉`)
-
+			// Let user know that text was copied to clipboard.
+			UI.message(`Text copied to clipboard! 😉`)
+		} else {
+			// Let user know there are not layers selected.
+			noTextSelectedMsg()
+		}
 	} else {
 		// Let user know there are not layers selected.
-		UI.message(`Nothing selected`)
+		noTextSelectedMsg()
 	}
 }

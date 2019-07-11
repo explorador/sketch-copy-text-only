@@ -1,0 +1,31 @@
+{
+  "name": "sketch-copy-text-only",
+  "description": "Sketch plugin to copy only the text from selected artboard(s) or layer(s)",
+    "repository" : {
+    "type": "git",
+    "url": "git+https://github.com/ORG/NAME.git"
+  },
+  "version": "1.2.0",
+  "engines": {
+    "sketch": ">=49.0"
+  },
+  "skpm": {
+    "name": "Sketch Copy Text Only",
+    "manifest": "src/manifest.json",
+    "main": "sketch-copy-text-only.sketchplugin",
+    "assets": [
+      "assets/**/*"
+    ],
+    "sketch-assets-file": "sketch-assets/icons.sketch"
+  },
+  "scripts": {
+    "build": "skpm-build",
+    "watch": "skpm-build --watch",
+    "start": "skpm-build --watch --run",
+    "postinstall": "npm run build && skpm-link"
+  },
+  "devDependencies": {
+    "@skpm/builder": "^0.7.0"
+  },
+  "author": "Cristian <cristianguerra@rocketmail.com>"
+}

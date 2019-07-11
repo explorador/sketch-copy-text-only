@@ -1,0 +1,23 @@
+{
+  "name": "Copty Text Only",
+  "author" : "Explorador",
+  "authorEmail" : "cristianguerra@rocketmail.com",
+  "description": "Copy text from selected artboard(s) or layer(s)",
+  "homepage": "https://github.com/explorador/sketch-copy-text-only",
+  "$schema": "https://raw.githubusercontent.com/BohemianCoding/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "Copy Text Only",
+      "identifier": "sketch-copy-text-only.copy-text-only",
+      "script": "./copy-text-only.js"
+    }
+  ],
+  "menu": {
+    "isRoot": true,
+    "title": "Copy Text Only",
+    "items": [
+      "sketch-copy-text-only.copy-text-only"
+    ]
+  }
+}

@@ -3,7 +3,7 @@
   "description": "Sketch plugin to copy only the text from selected artboard(s) or layer(s)",
     "repository" : {
     "type": "git",
-    "url": "git+https://github.com/ORG/NAME.git"
+    "url": "git+https://github.com/explorador/sketch-copy-text-only"
   },
   "version": "1.2.0",
   "engines": {
